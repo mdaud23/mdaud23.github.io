@@ -1,89 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aesthetic Analytics</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-    <style>
-        :root {
-            --bg: #fafafa;
-            --card: #ffffff;
-            --accent: #000000;
-            --text-muted: #888888;
-        }
+<meta charset="UTF-8">
+<title>Charts Without JavaScript</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            color: #111;
-            margin: 0;
-            padding: 50px 20px;
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        padding: 20px;
+    }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        header {
-            margin-bottom: 60px;
-        }
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px;
+    }
 
-        header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
+    .card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
+    svg {
+        width: 100%;
+        height: auto;
+    }
 
-        .chart-container {
-            background: var(--card);
-            border-bottom: 1px solid #eee; /* Ultra-minimalist border instead of heavy shadows */
-            padding: 20px 0;
-        }
+    .bar {
+        fill: steelblue;
+    }
 
-        .chart-label {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
+    .line {
+        fill: none;
+        stroke: #4bc0c0;
+        stroke-width: 3;
+    }
 
-        canvas {
-            width: 100% !important;
-            height: auto !important;
-        }
-    </style>
+    .slice1 { fill: #36a2eb; }
+    .slice2 { fill: #ff6384; }
+    .slice3 { fill: #ffce56; }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Overview</h1>
-            <p style="color: var(--text-muted)">Metrics for the last 30 days.</p>
-        </header>
+<h1>Pure HTML & CSS Chart Dashboard</h1>
 
-        <div class="grid">
-            <div class="chart-container">
-                <div class="chart-label">Growth Rate</div>
-                <canvas id="mainLineChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <div class="chart-label">Distribution</div>
-                <canvas id="mainDoughnutChart"></canvas>
-            </div>
-        </div>
+<div class="dashboard">
+
+    <!-- Bar Chart -->
+    <div class="card">
+        <h3>Bar Chart (Sales)</h3>
+        <svg viewBox="0 0 300 200">
+            <rect class="bar" x="20"  y="80"  width="40" height="100"></rect>
+            <rect class="bar" x="80"  y="40"  width="40" height="140"></rect>
+            <rect class="bar" x="140" y="100" width="40" height="80"></rect>
+            <rect class="bar" x="200" y="60"  width="40" height="120"></rect>
+        </svg>
     </div>
 
-    <script>
-        // Check if Chart.js loaded, if not, try an alternative CDN
-        if (typeof Chart === 'undefined') {
+    <!-- Line Chart -->
+    <div class="card">
+        <h3>Line Chart (Visitors)</h3>
+        <svg viewBox="0 0 300 200">
+            <polyline
+                class="line"
+                points="20,150 80,90 140,110 200,50 260,80"
+            />
+        </svg>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="card">
+        <h3>Pie Chart (Devices)</h3>
+        <svg viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="80" class="slice1"
+                stroke-dasharray="251 251"
+                stroke-dashoffset="0"
+                stroke-width="160"
+                fill="none"
+                transform="rotate(-90 100 100)" />
+
+            <circle cx="100" cy="100" r="80" class="slice2"
+                stroke-dasharray="125 251"
+                stroke-dashoffset="-251"
+                stroke-width="160"
+                fill="none"
+                transform="rotate(-90 100 100)" />
+
+            <circle cx="100" cy="100" r="80" class="slice3"
+                stroke-dasharray="75 251"
+                stroke-dashoffset="-376"
+                stroke-width="160"
+                fill="none"
+                transform="rotate(-90 100 100)" />
+        </svg>
+    </div>
+
+</div>
+
+</body>
+</html>
