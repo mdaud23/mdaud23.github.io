@@ -3,165 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimalist Analytics</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Aesthetic Analytics</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-main: #2d3436;
-            --accent-color: #6c5ce7;
+            --bg: #fafafa;
+            --card: #ffffff;
+            --accent: #000000;
+            --text-muted: #888888;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: #111;
             margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 50px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
         header {
-            margin-bottom: 40px;
-            text-align: center;
+            margin-bottom: 60px;
         }
 
         header h1 {
-            font-weight: 300;
-            letter-spacing: -1px;
-            margin-bottom: 5px;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0;
+            letter-spacing: -0.5px;
         }
 
-        .dashboard-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px;
-            width: 100%;
-            max-width: 1100px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
         }
 
-        .card {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            transition: transform 0.2s ease;
+        .chart-container {
+            background: var(--card);
+            border-bottom: 1px solid #eee; /* Ultra-minimalist border instead of heavy shadows */
+            padding: 20px 0;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        h3 {
-            font-size: 0.9rem;
+        .chart-label {
+            font-size: 12px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #b2bec3;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
             margin-bottom: 20px;
         }
 
         canvas {
-            max-width: 100%;
+            width: 100% !important;
+            height: auto !important;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Executive Summary</h1>
-        <p style="color: #636e72;">Data performance for the current fiscal year.</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Overview</h1>
+            <p style="color: var(--text-muted)">Metrics for the last 30 days.</p>
+        </header>
 
-    <div class="dashboard-grid">
-        <div class="card">
-            <h3>Revenue Growth</h3>
-            <canvas id="lineChart"></canvas>
-        </div>
-
-        <div class="card">
-            <h3>User Acquisition</h3>
-            <canvas id="barChart"></canvas>
-        </div>
-
-        <div class="card">
-            <h3>Market Share</h3>
-            <canvas id="doughnutChart"></canvas>
-        </div>
-
-        <div class="card">
-            <h3>Product Performance</h3>
-            <canvas id="radarChart"></canvas>
+        <div class="grid">
+            <div class="chart-container">
+                <div class="chart-label">Growth Rate</div>
+                <canvas id="mainLineChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <div class="chart-label">Distribution</div>
+                <canvas id="mainDoughnutChart"></canvas>
+            </div>
         </div>
     </div>
 
     <script>
-        const ctxLine = document.getElementById('lineChart').getContext('2d');
-        const ctxBar = document.getElementById('barChart').getContext('2d');
-        const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
-        const ctxRadar = document.getElementById('radarChart').getContext('2d');
-
-        // Global Configuration
-        Chart.defaults.font.family = "'Inter', sans-serif";
-        Chart.defaults.color = '#636e72';
-
-        // 1. Line Chart
-        new Chart(ctxLine, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Monthly Revenue',
-                    data: [12000, 19000, 15000, 25000, 22000, 30000],
-                    borderColor: '#6c5ce7',
-                    backgroundColor: 'rgba(108, 92, 231, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 3,
-                    pointRadius: 0
-                }]
-            },
-            options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } } }
-        });
-
-        // 2. Bar Chart
-        new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: ['Ads', 'Organic', 'Referral', 'Social'],
-                datasets: [{
-                    data: [45, 80, 55, 70],
-                    backgroundColor: ['#a29bfe', '#81ecec', '#fab1a0', '#ffeaa7'],
-                    borderRadius: 8
-                }]
-            },
-            options: { plugins: { legend: { display: false } }, scales: { y: { grid: { borderDash: [5, 5] } }, x: { grid: { display: false } } } }
-        });
-
-        // 3. Doughnut Chart
-        new Chart(ctxDoughnut, {
-            type: 'doughnut',
-            data: {
-                labels: ['Mobile', 'Desktop', 'Tablet'],
-                datasets: [{
-                    data: [55, 35, 10],
-                    backgroundColor: ['#6c5ce7', '#00cec9', '#dfe6e9'],
-                    hoverOffset: 4,
-                    borderWidth: 0
-                }]
-            },
-            options: { cutout: '80%', plugins: { legend: { position: 'bottom' } } }
-        });
-
-        // 4. Radar Chart
-        new Chart(ctxRadar, {
-            type: 'radar',
-            data: {
-                labels: ['Speed', 'UI', 'Price', 'Support', 'Quality'],
-                datasets: [{
-                    label: 'Product A',
-                    data: [90, 70, 60, 85, 80],
-                    borderColor: '#fd79a8',
-                    backgroundColor
+        // Check if Chart.js loaded, if not, try an alternative CDN
+        if (typeof Chart === 'undefined') {
